@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ResourceTracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace ResourceTracker.DAO.Interfaces
 {
     public interface IDropDownDAO
     {
-        Task<List<string>> GetDesignationsAsync();
-        Task<List<string>> GetLocationsAsync();
-        Task<List<string>> GetSkillsAsync();
-        Task<List<string>> GetProjectsAsync();
-        Task<List<string>> GetReportingToAsync();
+        Task<List<DesignationModel>> GetDesignationsAsync();
+        Task<List<LocationModel>> GetLocationsAsync();
+        Task<List<SkillModel>> GetSkillsAsync();
+        Task<List<ProjectModel>> GetProjectsAsync();
+        Task<List<ManagerModel>> GetManagersAsync();
        
 
     }
