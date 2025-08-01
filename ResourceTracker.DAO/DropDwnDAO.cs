@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using ResourceTracker.DAO.Interfaces;
+using ResourceTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,77 +22,109 @@ namespace ResourceTracker.DAO
         }
         private SqlConnection GetConnection() => new SqlConnection(_connectionString);
 
-        public async Task<List<string>> GetDesignationsAsync()
+        public async Task<List<DesignationModel>> GetDesignationsAsync()
         {
-            var list = new List<string>();
+            var list = new List<DesignationModel>();
+
             using var conn = GetConnection();
-            using var cmd = new SqlCommand("sp_GetDesignations", conn);
+            using var cmd = new SqlCommand("sp_GetAllDesignations", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             await conn.OpenAsync();
             using var reader = await cmd.ExecuteReaderAsync();
+
             while (await reader.ReadAsync())
-                list.Add(reader.GetString(0));
+            {
+                list.Add(new DesignationModel
+                {
+                    DesignationId = reader.GetInt32(0),
+                    Designation_Name = reader.GetString(1)
+                });
+            }
 
             return list;
         }
 
-        public async Task<List<string>> GetLocationsAsync()
+
+        public async Task<List<LocationModel>> GetLocationsAsync()
         {
-            var list = new List<string>();
+            var list = new List<LocationModel>();
             using var conn = GetConnection();
-            using var cmd = new SqlCommand("sp_GetLocations", conn);
+            using var cmd = new SqlCommand("sp_GetAllLocations", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             await conn.OpenAsync();
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
-                list.Add(reader.GetString(0));
+            {
+                list.Add(new LocationModel
+                {
+                    LocationId = reader.GetInt32(0),
+                    Location_Name = reader.GetString(1)
+                });
+            }
+            return list;
+        }
+
+        public async Task<List<SkillModel>> GetSkillsAsync()
+        {
+            var list = new List<SkillModel>();
+            using var conn = GetConnection();
+            using var cmd = new SqlCommand("sp_GetAllSkills", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            await conn.OpenAsync();
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                list.Add(new SkillModel
+                {
+                    SkillId = reader.GetInt32(0),
+                    Skill_Name = reader.GetString(1)
+                });
+            }
 
             return list;
         }
 
-        public async Task<List<string>> GetSkillsAsync()
+        public async Task<List<ProjectModel>> GetProjectsAsync()
         {
-            var list = new List<string>();
+            var list = new List<ProjectModel>();
             using var conn = GetConnection();
-            using var cmd = new SqlCommand("sp_GetTechnologySkills", conn);
+            using var cmd = new SqlCommand("sp_GetAllProjects", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             await conn.OpenAsync();
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
-                list.Add(reader.GetString(0));
+            {
+                list.Add(new ProjectModel
+                {
+                    ProjectId = reader.GetInt32(0),
+                    Project_Name = reader.GetString(1)
+                });
+            }
 
             return list;
         }
 
-        public async Task<List<string>> GetProjectsAsync()
+        public async Task<List<ManagerModel>> GetManagersAsync()
         {
-            var list = new List<string>();
+            var list = new List<ManagerModel>();
             using var conn = GetConnection();
-            using var cmd = new SqlCommand("sp_GetProjects", conn);
+            using var cmd = new SqlCommand("sp_GetAllManagers", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             await conn.OpenAsync();
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
-                list.Add(reader.GetString(0));
-
-            return list;
-        }
-
-        public async Task<List<string>> GetReportingToAsync()
-        {
-            var list = new List<string>();
-            using var conn = GetConnection();
-            using var cmd = new SqlCommand("sp_GetReportingTo", conn); 
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            await conn.OpenAsync();
-            using var reader = await cmd.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
-                list.Add(reader.GetString(0));
+            {
+                list.Add(new ManagerModel
+                {
+                    ManagerId = reader.GetInt32(0),
+                    Manager_Name = reader.GetString(1)
+                });
+            }
 
             return list;
         }

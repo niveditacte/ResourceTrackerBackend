@@ -1,4 +1,5 @@
 ﻿using ResourceTracker.DAO.Interfaces;
+using ResourceTracker.Models;
 using ResourceTracker.Orchestration.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,29 +17,29 @@ namespace ResourceTracker.Orchestration
         {
             _dropdownDAO = dropdownDAO;
         }
-        public Task<List<string>> GetDesignationsAsync()
+        public Task<List<DesignationModel>> GetDesignationsAsync()
         {
             return _dropdownDAO.GetDesignationsAsync();
         }
 
-        public Task<List<string>> GetLocationsAsync()
+        public Task<List<LocationModel>> GetLocationsAsync()
         {
             return _dropdownDAO.GetLocationsAsync();
         }
 
-        public Task<List<string>> GetSkillsAsync()
+        public Task<List<SkillModel>> GetSkillsAsync()
         {
             return _dropdownDAO.GetSkillsAsync();
         }
 
-        public Task<List<string>> GetProjectsAsync()
+        public Task<List<ProjectModel>> GetProjectsAsync()
         {
             return _dropdownDAO.GetProjectsAsync();
         }
 
-        public Task<List<string>> GetReportingToAsync()
+        public Task<List<ManagerModel>> GetManagersAsync()
         {
-            return _dropdownDAO.GetReportingToAsync();
+            return _dropdownDAO.GetManagersAsync();
         }
     }
 }

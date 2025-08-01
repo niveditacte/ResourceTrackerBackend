@@ -4,7 +4,7 @@ using ResourceTracker.Orchestration.Interfaces;
 namespace ResourceTracker.Controllers
 {
     [ApiController]
-    [Route("api/resourcetracker")]
+    [Route("api/Employee")]
     public class DropDownController: ControllerBase
     {
         private readonly IDropDownOrchestration _orchestration;
@@ -41,10 +41,10 @@ namespace ResourceTracker.Controllers
             return Ok(list);
         }
 
-        [HttpGet("reportingto")]
-        public async Task<IActionResult> GetReportingTo()
+        [HttpGet("managers")]
+        public async Task<IActionResult> GetManagers()
         {
-            var list = await _orchestration.GetReportingToAsync();
+            var list = await _orchestration.GetManagersAsync();
             return Ok(list);
         }
 
