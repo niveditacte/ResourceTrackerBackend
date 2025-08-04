@@ -15,5 +15,7 @@ namespace ResourceTracker.Orchestration.Interfaces
         List<EmployeeDetailsResponse> GetAllEmployees();
         void BulkUpdateEmployees(BulkEmployeeModel model);
         List<ImportResult> BulkImportEmployees(List<ImportEmployeeModel> employees);
+        List<ExportEmployeeModel> GetExportEmployees();
+
     }
 }

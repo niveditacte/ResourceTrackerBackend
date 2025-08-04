@@ -16,7 +16,9 @@ namespace ResourceTracker.DAO
 
         public EmployeeDao(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnnection");
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            Console.WriteLine("Connection string: " + _connectionString);
+
         }
 
         public void InsertEmployee(EmployeeModel model)
@@ -469,6 +471,43 @@ namespace ResourceTracker.DAO
 
             return result;
         }
+
+        public List<ExportEmployeeModel> GetEmployeesForExport()
+        {
+            var employees = new List<ExportEmployeeModel>();
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = new SqlCommand("sp_GetEmployeesForExport", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        employees.Add(new ExportEmployeeModel
+                        {
+                            EmpId = reader.GetInt32(0),
+                            Employee_Name = reader.GetString(1),
+                            Designation_Name = reader.GetString(2),
+                            ReportingToName = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                            Billable = reader.GetString(4),
+                            Skills = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                            Projects = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                            Location_Name = reader.GetString(7),
+                            EmailId = reader.GetString(8),
+                            CTE_DOJ = DateOnly.FromDateTime(reader.GetDateTime(9)),
+                            Remarks = reader.GetString(10),
+                            ExportedAt = DateOnly.FromDateTime(reader.GetDateTime(11))
+                        });
+                    }
+                }
+            }
+
+            return employees;
+        }
+
 
     }
 }

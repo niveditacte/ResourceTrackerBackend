@@ -21,5 +21,6 @@ namespace ResourceTracker.DAO.Interfaces
         int? GetManagerId(string managerName);
         List<int> GetSkillIds(List<string> skillNames);
         List<int> GetProjectIds(List<string> projectNames);
+        List<ExportEmployeeModel> GetEmployeesForExport();
     }
 }
