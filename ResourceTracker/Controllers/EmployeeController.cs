@@ -2,6 +2,7 @@
 using Models;
 using ResourceTracker.Models;
 using ResourceTracker.Orchestration.Interfaces;
+using System.Text;
 
 namespace ResourceTracker.Controllers
 {
@@ -102,6 +103,45 @@ namespace ResourceTracker.Controllers
                 return StatusCode(500, $"Error importing employees: {ex.Message}");
             }
         }
+
+        [HttpGet("export")]
+        public IActionResult ExportEmployees()
+        {
+            var exportData = _employeeOrchestration.GetExportEmployees();
+
+            var csv = new StringBuilder();
+            csv.AppendLine("EmpID, Employee Name,Designation,Reporting To,Billable,Tech Skill,Project Allocation,Location,Email ID,CTE DOJ,Remarks,Exported At");
+
+            foreach (var e in exportData)
+            {
+                csv.AppendLine(string.Join(",",
+                    $"E{e.EmpId.ToString().PadLeft(4, '0')}",
+                    WrapCsv(e.Employee_Name),
+                    WrapCsv(e.Designation_Name),
+                    WrapCsv(e.ReportingToName),
+                    WrapCsv(e.Billable),
+                    WrapCsv(e.Skills),
+                    WrapCsv(e.Projects),
+                    WrapCsv(e.Location_Name),
+                    WrapCsv(e.EmailId),
+                    e.CTE_DOJ.ToString("yyyy-MM-dd"),
+                    WrapCsv(e.Remarks),
+                    e.ExportedAt.ToString("yyyy-MM-dd")
+                ));
+            }
+
+            var bytes = Encoding.UTF8.GetBytes(csv.ToString());
+            return File(bytes, "text/csv", "ResourceDetails.csv");
+        }
+
+        private string WrapCsv(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return "";
+            return $"\"{value.Replace("\"", "\"\"")}\"";
+        }
+
     }
+
+
 }
 

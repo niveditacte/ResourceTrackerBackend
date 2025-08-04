@@ -18,7 +18,7 @@ namespace ResourceTracker.DAO
 
         public DropDwnDAO(IConfiguration config)
         {
-            this._connectionString = config.GetConnectionString("DefaultConnnection")!;
+            this._connectionString = config.GetConnectionString("DefaultConnection")!;
         }
         private SqlConnection GetConnection() => new SqlConnection(_connectionString);
 

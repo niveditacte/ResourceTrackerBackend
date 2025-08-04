@@ -230,6 +230,12 @@ namespace ResourceTracker.Orchestration
 
             return failedImports;
         }
+
+        public List<ExportEmployeeModel> GetExportEmployees()
+        {
+            return _employeeDao.GetEmployeesForExport();
+        }
+
     }
 }
 
