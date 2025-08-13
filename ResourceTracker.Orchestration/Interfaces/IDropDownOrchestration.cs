@@ -14,6 +14,7 @@ namespace ResourceTracker.Orchestration.Interfaces
         Task<List<SkillModel>> GetSkillsAsync();
         Task<List<ProjectModel>> GetProjectsAsync();
         Task<List<ManagerModel>> GetManagersAsync();
+        Task<List<RoleModel>> GetRolesAsync();
         
 
     }

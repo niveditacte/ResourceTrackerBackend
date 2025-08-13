@@ -41,5 +41,10 @@ namespace ResourceTracker.Orchestration
         {
             return _dropdownDAO.GetManagersAsync();
         }
+
+        public Task<List<RoleModel>> GetRolesAsync()
+        {
+            return _dropdownDAO.GetRolesAsync();
+        }
     }
 }

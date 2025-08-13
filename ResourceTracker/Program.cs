@@ -2,6 +2,7 @@ using ResourceTracker.DAO;
 using ResourceTracker.DAO.Interfaces;
 using ResourceTracker.Orchestration;
 using ResourceTracker.Orchestration.Interfaces;
+using ResourceTracker.Orchestration.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,11 @@ builder.Services.AddScoped<IResourceTrackerOrchestration, ResourceTrackerOrchest
 builder.Services.AddScoped<IDropDownDAO, DropDwnDAO>();
 builder.Services.AddScoped<IDropDownOrchestration, DropDownOrchestration>();
 builder.Services.AddScoped<IEmployeeOrchestration, EmployeeOrchestration>();
+builder.Services.AddScoped<IAuthDAO, AuthDAO>();
+builder.Services.AddScoped<IAuthOrchestration, AuthOrchestration>();
+builder.Services.AddScoped<JWTService>();
 
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddCors(options =>
 {

@@ -128,5 +128,26 @@ namespace ResourceTracker.DAO
 
             return list;
         }
+
+        public async Task<List<RoleModel>> GetRolesAsync()
+        {
+            var list = new List<RoleModel>();
+            using var conn = GetConnection();
+            using var cmd = new SqlCommand("sp_GetAllRoles", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            await conn.OpenAsync();
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                list.Add(new RoleModel
+                {
+                    RoleId = reader.GetInt32(0),
+                    Role = reader.GetString(1)
+                });
+            }
+
+            return list;
+        }
     }
 }
