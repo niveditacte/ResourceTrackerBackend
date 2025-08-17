@@ -117,7 +117,7 @@ namespace ResourceTracker.DAO
         public void DeleteEmployee(int empId)
         {
             using (var conn = new SqlConnection(_connectionString))
-            using (var cmd = new SqlCommand("sp_DeleteEmployee", conn))
+            using (var cmd = new SqlCommand("sp_DeleteEmployeewithDetails", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@EmpId", empId);

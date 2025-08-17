@@ -48,5 +48,12 @@ namespace ResourceTracker.Controllers
             return Ok(list);
         }
 
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            var list = await _orchestration.GetRolesAsync();
+            return Ok(list);
+        }
+
     }
 }
